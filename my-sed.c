@@ -43,16 +43,41 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
             }
         }
         else{
-            // if the word is in middle 
-            // strcpy the first part the terminate
-            // strcat the replace term
-            // strcpy the end the strcat
             char *n = ptr_str - 1;
-            printf(">>%c<<\n", n[0]);
-            // char *is_space = ptr_str + strlen(find_term);
-            // if( is_space == ' ' && n == ' '){
-                
-            // }
+            char *is_space = ptr_str + strlen(find_term);
+            if(n[0] == ' '){
+
+                //if the word is at the end of the line
+                if(is_space[0] == '\0'){
+                    int chr = 0;
+                    for(chr = 0; chr < strlen(replace_term); chr++){
+                        ptr_str[chr] = replace_term[chr];
+                    }
+                    ptr_str[strlen(replace_term)] = '\0';
+                    printf("%s\n", new_buffer);
+                    break;
+                }
+
+                //if the word is in the middle of the line 
+                if(is_space[0] == ' '){
+                    int chr = 0;
+
+                    char end_substr[256];
+                    strcpy(end_substr, is_space);
+
+                    for(chr = 0; chr < strlen(replace_term); chr++){
+                        ptr_str[chr] = replace_term[chr];
+                    }
+                    ptr_str[strlen(replace_term)] = '\0';
+
+                    char new_str[256];
+                    strcpy(new_str, new_buffer);
+                    strcat(new_str, end_substr);
+                    printf("%s\n", new_str);
+                    break;
+                }
+            }
+           
         }
 
         // printf("%s\n", ptr_str);
