@@ -20,15 +20,14 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
         }
         // if word exist at the very beginning
         if (strlen(new_buffer) == strlen(ptr_str)){
-            int len_find = strlen(find_term);
-            char *is_space = ptr_str + len_find;
+            char *is_space = ptr_str + strlen(find_term);
 
             // printf(">>%c<<<<space?\n", is_space[0]);
          
-            if ( ' ' == is_space[0]){
-                char temp[256];
+            if ( ' ' == is_space[0] || '\0' == is_space[0]){
+                char end_substr[256];
 
-                strcpy(temp, is_space);
+                strcpy(end_substr, is_space);
 
                 int chr = 0;
                 for(chr = 0; chr < strlen(replace_term); chr++){
@@ -36,10 +35,10 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
                 }
                 ptr_str[strlen(replace_term)] = '\0';
 
-                char temp2[256];
-                strcpy(temp2, ptr_str);
-                strcat(temp2, temp);
-                printf("%s\n", temp2);
+                char new_str[256];
+                strcpy(new_str, ptr_str);
+                strcat(new_str, end_substr);
+                printf("%s\n", new_str);
                 break;
             }
         }
@@ -50,6 +49,10 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
             // strcpy the end the strcat
             char *n = ptr_str - 1;
             printf(">>%c<<\n", n[0]);
+            // char *is_space = ptr_str + strlen(find_term);
+            // if( is_space == ' ' && n == ' '){
+                
+            // }
         }
 
         // printf("%s\n", ptr_str);
@@ -84,13 +87,20 @@ int main(int argc, char *argv[]){
 
 
         char buffer_stdin[256];
+        char *stdin_array = NULL;
         printf("Enter Input: \n");
         char *find_term = argv[1];
         char *replace_term = argv[2];
 
-        fgets(buffer_stdin, 256, stdin);
-        my_sed(buffer_stdin, find_term, replace_term);
+        // fgets(buffer_stdin, 256, stdin);
+        size_t buff_size = 256;
+        while((getline(&stdin_array, &buff_size, stdin)) != 1){
+            strcpy(buffer_stdin, stdin_array);
+            my_sed(buffer_stdin, find_term, replace_term);
 
+        }       
+        free(stdin_array);
+    
         return 0;
     }
 
