@@ -1,0 +1,13 @@
+This project
+should be programmed entirely in C and must compile and run on standard
+Linux environments, e.g., Ubuntu. (The labs and UX use Ubuntu 22.04 LTS.) Copying &
+pasting code from other teams or from the web is considered cheating and results in an
+automatic F.
+In this assignment, you will build a set of simplified Linux utilities like cat, sed, and
+uniq. We say simplified because the original version are quite complicated. For example,
+the source of the cat command – which concatenates files and writes out to standard output
+– is around 700 lines. We will use slightly different names for the utilities in this assignment
+to avoid confusion - my-cat, my-sed, and my-uniq.
+
+You MAY NOT use the original Linux commands (i.e., cat, sed, and uniq) for the imple-
+mentation of my-cat, my-sed, and my-uniq. Doing so will result in an automatic F.
