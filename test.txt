@@ -1,4 +1,4 @@
-This project
+This project my
 should be programmed entirely in C and must compile and run on standard
 Linux environments, e.g., Ubuntu. (The labs and UX use Ubuntu 22.04 LTS.) Copying &
 pasting code from other teams or from the web is considered cheating and results in an
