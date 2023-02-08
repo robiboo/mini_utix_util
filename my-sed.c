@@ -3,34 +3,38 @@
 #include<stdio.h>
 
 int my_sed(char *buffer, char *find_term, char *replace_term){
+    //this function replaces the find_term with the replace_term
     
     
-    //replaces the newline at the end of the buffer string with a null character
     char new_buffer[256];
     strcpy(new_buffer, buffer);
+
+    //replaces the newline at the end of the buffer string with a null character
     if ( new_buffer[strlen(new_buffer) - 1] == '\n'){
         new_buffer[strlen(new_buffer) - 1] = '\0';
     }
     
     char *ptr_str = strstr(new_buffer, find_term );
 
+    //loops through each instance of the find_word; check if valid then replace
     for(;;){
         if (ptr_str == NULL){
             printf("%s\n", new_buffer);
             break;
         }
-        // if word exist at the very beginning
+
         if (strlen(new_buffer) == strlen(ptr_str)){
             char *is_space = ptr_str + strlen(find_term);
 
-            // printf(">>%c<<<<space?\n", is_space[0]);
-         
+            //checks if the word is at the very beginning or the only word in the line
             if ( ' ' == is_space[0] || '\0' == is_space[0]){
                 char end_substr[256];
 
                 strcpy(end_substr, is_space);
 
                 int chr = 0;
+
+                //replaces each character
                 for(chr = 0; chr < strlen(replace_term); chr++){
                     ptr_str[chr] = replace_term[chr];
                 }
@@ -46,11 +50,15 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
         else{
             char *n = ptr_str - 1;
             char *is_space = ptr_str + strlen(find_term);
+
+            //checks if the subtring begins with the find_term
             if(n[0] == ' '){
 
                 //if the word is at the end of the line
                 if(is_space[0] == '\0'){
                     int chr = 0;
+
+                    //replaces each character
                     for(chr = 0; chr < strlen(replace_term); chr++){
                         ptr_str[chr] = replace_term[chr];
                     }
@@ -59,13 +67,14 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
                     break;
                 }
 
-                //if the word is in the middle of the line 
+                //if the word is in the middle of the line; ends with a space character 
                 if(is_space[0] == ' '){
                     int chr = 0;
 
                     char end_substr[256];
                     strcpy(end_substr, is_space);
 
+                    //replaces each character
                     for(chr = 0; chr < strlen(replace_term); chr++){
                         ptr_str[chr] = replace_term[chr];
                     }
@@ -96,15 +105,13 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
     if (argc < 4){
-        //stdin
+        //ask user for an input from stdin
 
 
         char buffer_stdin[256];
         char *stdin_array = NULL;
         printf("Enter Input: \n");
  
-
-        // fgets(buffer_stdin, 256, stdin);
         size_t buff_size = 256;
         while((getline(&stdin_array, &buff_size, stdin)) != 1){
             strcpy(buffer_stdin, stdin_array);
@@ -119,6 +126,8 @@ int main(int argc, char *argv[]){
     if (argc > 3){
 
         int i = 3;
+
+        //loops through each command line argument
         while(i < argc){
             FILE *fp = fopen(argv[i], "r");
 
