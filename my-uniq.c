@@ -32,8 +32,9 @@ int main(int argc, char *argv[]){
 
         // go through file line by line and print out non duplicates
         fp = fopen("temp.txt", "r");
+        string = (char *) malloc(size);
         while(bytes_read != EOF) {
-            string = (char *) malloc(size);
+            
             bytes_read = getline(&string, &size, fp);
             // duplicate case 
          
@@ -41,7 +42,10 @@ int main(int argc, char *argv[]){
                 temp = strdup(string);
                 printf("%s", string);
             } 
+            
         }
+        free(temp);
+        free(string);
         fclose(fp);
         remove("temp.txt");
 
@@ -64,16 +68,22 @@ int main(int argc, char *argv[]){
                 exit(1);
             }
 
+            string = (char *) malloc(size);
             while(bytes_read != EOF) {
-                string = (char *) malloc(size);
                 bytes_read = getline(&string, &size, fp);
                 // duplicate case 
                 // printf("compare");
                 if (strcmp(temp, string) != 0) {
+                    if (strcmp(temp, "") != 0){
+                        free(temp);
+                    }
                     temp = strdup(string);
                     printf("%s", string);
                 } 
+
             }
+            free(temp);
+            free(string);
             fclose(fp);
             i++;
 
