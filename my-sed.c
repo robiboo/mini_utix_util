@@ -8,15 +8,16 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
     //replaces the newline at the end of the buffer string with a null character
     char new_buffer[256];
     strcpy(new_buffer, buffer);
-    new_buffer[strlen(new_buffer) - 1] = '\0';
-
+    if ( new_buffer[strlen(new_buffer) - 1] == '\n'){
+        new_buffer[strlen(new_buffer) - 1] = '\0';
+    }
+    
     char *ptr_str = strstr(new_buffer, find_term );
 
-    int x = 0;
-    while(x != 2){
+    for(;;){
         if (ptr_str == NULL){
-            printf("Cannot find word\n");
-            exit(1);
+            printf("%s\n", new_buffer);
+            break;
         }
         // if word exist at the very beginning
         if (strlen(new_buffer) == strlen(ptr_str)){
@@ -79,30 +80,17 @@ int my_sed(char *buffer, char *find_term, char *replace_term){
             }
            
         }
-
-        // printf("%s\n", ptr_str);
         ptr_str = strstr(ptr_str +1, find_term);
-        
-        x++;
-    }
-
-
-
-    // printf("%s\n", new_ptr);
-
-
-    // printf("%lu\n", strlen(new_buffer));
-    // printf("%lu\n", strlen(ptr_str));
-    // printf("%lu\n", strlen(find_term));
-
-
-    
+    }    
     return 0;
 }
 
 
 int main(int argc, char *argv[]){
 	// check for at least one file in the command line
+
+    char *find_term = argv[1];
+    char *replace_term = argv[2];
 	if (argc < 3){
 		printf("my-sed: find term replace term [file ...]\n");
 		exit(1);
@@ -114,8 +102,7 @@ int main(int argc, char *argv[]){
         char buffer_stdin[256];
         char *stdin_array = NULL;
         printf("Enter Input: \n");
-        char *find_term = argv[1];
-        char *replace_term = argv[2];
+ 
 
         // fgets(buffer_stdin, 256, stdin);
         size_t buff_size = 256;
@@ -129,27 +116,26 @@ int main(int argc, char *argv[]){
         return 0;
     }
 
+    if (argc > 3){
 
-	// int i = 3;
-	// // for each file in the command line
-	// while (i < argc){
-	// 	FILE *fp = fopen(argv[i], "r");
-	// 	// check if opening file was a success
-	// 	if (fp == NULL) {
-	// 		printf("my-sed: cannot open file\n");
-	// 		exit(1);
-	// 	}
+        int i = 3;
+        while(i < argc){
+            FILE *fp = fopen(argv[i], "r");
 
-	// 	char str[256];
-		
-	// 	// print contents of the file
-	// 	while (fgets(str, 256, fp)){
-	// 		printf("%s", str);
-	// 	}
+            if (fp == NULL){
+                printf("my-sed: cannot open file\n");
+			    exit(1);
+            }
 
-	// 	fclose(fp);
-	// 	i++;
-	// }
+            char str[256];
+            while(fgets(str, 256, fp)){
+                my_sed(str, find_term, replace_term);
+            }
+            fclose(fp);
+            i++;
+    
+        }
+    }
 
 	return 0;
 }
