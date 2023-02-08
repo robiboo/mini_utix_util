@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
             int bytes_read = 1;
             size_t size = 10;
             char *string = NULL;
-            char *temp = NULL;
+            char *temp = "";
             FILE *fp = fopen(argv[i], "r");
 
             // check if opening file was a success
@@ -65,15 +65,12 @@ int main(int argc, char *argv[]){
                 string = (char *) malloc(size);
                 bytes_read = getline(&string, &size, fp);
                 // duplicate case 
-                printf("compare");
-                if (strcmp(temp, string) == 0) {
-                    printf("duplicate found");
-
-                } else {
+                // printf("compare");
+                if (strcmp(temp, string) != 0) {
                     temp = strdup(string);
-                    printf("%s", temp);
+                    
                     printf("%s", string);
-                }
+                } 
             }
             fclose(fp);
             i++;
