@@ -28,8 +28,8 @@ int remove_dup(char *name){
             }
             temp = strdup(string);
             printf("%s", string);
-        } 
-
+        }
+        
     }
     free(temp);
     free(string);
@@ -59,6 +59,7 @@ int main(int argc, char *argv[]){
         while (getline(&string, &size, stdin) != 1) {
             fputs(string, fp);
         }
+        free(string);
         fclose(fp);
 
         // call function to remove duplicates from temp file
