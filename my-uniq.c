@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
         char *string = NULL;
 
         // temp file to store input from stdin
-        fp = fopen("temp.txt", "r+");
+        fp = fopen("temp.txt", "w+");
         // check if opening file was a success
         if (fp == NULL) {
             printf("my-uniq: cannot open file\n");
